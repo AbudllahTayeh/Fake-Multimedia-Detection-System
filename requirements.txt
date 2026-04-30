@@ -1,0 +1,30 @@
+# Deep Learning Frameworks
+torch>=2.0.0
+torchvision
+tensorflow>=2.10.0
+timm
+
+# Computer Vision & Image Processing
+opencv-python
+facenet-pytorch
+Pillow
+
+# Audio Processing
+librosa
+
+# Data Manipulation & Machine Learning
+numpy
+pandas
+scikit-learn
+
+# Web Application & Interface
+flask
+gradio
+
+# Web Scraping Tools
+selenium
+undetected-chromedriver
+
+# Utilities
+tqdm
+kagglehub
