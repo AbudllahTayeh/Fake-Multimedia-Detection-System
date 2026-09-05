@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}Web Page Analysis{% endblock %}
+
+{% block background_image %}
+<!-- Specific background for Page Analysis -->
+<img src="{{ url_for('static', filename='backgrounds/Page.png') }}" alt="Background" class="w-full h-full object-cover">
+{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto px-4 py-12 mt-32">
+    <div class="bg-white/90 backdrop-blur-md shadow-xl rounded-2xl overflow-hidden mb-8 border border-white/50">
+        <div class="p-8">
+            <div class="flex items-center space-x-4 mb-4">
+                <div class="p-3 bg-orange-100 rounded-lg">
+                    <i class="fa-solid fa-globe text-orange-600 text-2xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900">Full Web Page Analysis</h2>
+                    <p class="text-gray-500">Upload a saved HTML file to scan all content types at once.</p>
+                </div>
+            </div>
+
+            <form method="post" enctype="multipart/form-data" class="mt-8">
+                <div class="file-upload-wrapper">
+                    <input type="file" id="html_file" name="html_file" accept=".html,.htm" required onchange="updateFileName(this)">
+                    <div class="text-center pointer-events-none">
+                        <i class="fa-solid fa-code text-4xl text-gray-400 mb-3"></i>
+                        <p class="text-sm text-gray-600 font-medium">Click to upload HTML file</p>
+                        <p id="file-name" class="text-sm text-orange-600 mt-2 font-bold"></p>
+                    </div>
+                </div>
+                <div class="mt-6 flex justify-end">
+                    <button type="submit" class="w-full sm:w-auto inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 transition shadow-sm hover:scale-105 transform">
+                        <i class="fa-solid fa-robot mr-2"></i> Start Full Analysis
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    {% if html_preview_url %}
+    <div class="bg-white/90 backdrop-blur-md shadow-xl rounded-2xl overflow-hidden mb-8 border border-white/50">
+        <div class="p-6 border-b border-gray-200/60">
+            <h3 class="text-lg font-bold text-gray-900">HTML Page Preview</h3>
+        </div>
+        <div class="relative h-[80vh] w-full">
+            <iframe src="{{ html_preview_url }}" class="w-full h-full border-0" title="Uploaded HTML Preview"></iframe>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if results %}
+    <div class="space-y-6">
+        <h3 class="text-2xl font-bold text-white border-b border-gray-200/50 pb-2">Analysis Report</h3>
+        
+        {% if results[0].error %}
+            <div class="bg-red-50/90 backdrop-blur-md border-l-4 border-red-500 p-4 rounded-r-lg">
+                <p class="text-red-700">{{ results[0].error }}</p>
+            </div>
+        {% else %}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {% for post in results %}
+                <div class="bg-white/80 backdrop-blur-md rounded-xl shadow-md overflow-hidden border border-white/50 hover:shadow-lg transition hover:scale-[1.02]">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                Post #{{ post.id }}
+                            </span>
+                            <span class="text-xs font-semibold uppercase tracking-wide text-blue-600">
+                                {{ post.content_type }}
+                            </span>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <p class="text-sm text-gray-500 italic border-l-2 border-gray-300 pl-3">
+                                {{ post.preview }}
+                            </p>
+                        </div>
+
+                        <div class="bg-gray-50/80 p-4 rounded-lg">
+                            <h5 class="text-xs font-bold text-gray-500 uppercase mb-1">AI Detection Result</h5>
+                            <p class="font-medium text-gray-900">{{ post.analysis|safe }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+
+<script>
+function updateFileName(input) {
+    const fileName = input.files[0] ? input.files[0].name : '';
+    document.getElementById('file-name').textContent = fileName;
+}
+</script>
+{% endblock %}

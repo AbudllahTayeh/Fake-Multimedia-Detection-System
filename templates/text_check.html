@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}AI Text Check{% endblock %}
+
+{% block background_image %}
+<!-- Specific background for Text Page -->
+<img src="{{ url_for('static', filename='backgrounds/Text.png') }}" alt="Background" class="w-full h-full object-cover">
+{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 py-12 mt-32">
+    <div class="bg-white/90 backdrop-blur-md shadow-xl rounded-2xl overflow-hidden border border-white/50">
+        <div class="p-8 border-b border-gray-200/60">
+            <div class="flex items-center space-x-4 mb-4">
+                <div class="p-3 bg-green-100 rounded-lg">
+                    <i class="fa-solid fa-align-left text-green-600 text-2xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900">AI Text Detection</h2>
+                    <p class="text-gray-500">Paste text to detect if it was written by ChatGPT, Gemini, or a Human.</p>
+                </div>
+            </div>
+
+            <form method="post" class="mt-8 space-y-6">
+                <div>
+                    <label for="text_content" class="sr-only">Text Content</label>
+                    <textarea id="text_content" name="text_content" rows="8" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm p-4 border bg-white/50 backdrop-blur-sm" placeholder="Paste your text here..." required>{{ submitted_text or '' }}</textarea>
+                </div>
+
+                <div class="flex justify-end">
+                    <button type="submit" class="w-full sm:w-auto inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 shadow-sm transition hover:scale-105 transform">
+                        <i class="fa-solid fa-wand-magic-sparkles mr-2"></i> Check Text
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        {% if result %}
+        <div class="p-8 bg-gray-50/50">
+            <h3 class="text-lg font-bold text-gray-900 mb-4">Analysis Result</h3>
+            <div class="bg-white/80 p-6 rounded-xl shadow-sm border border-gray-200 result-card">
+                <p class="text-gray-800">{{ result|safe }}</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

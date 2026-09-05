@@ -1,0 +1,7 @@
+To ensure the GPU works as intended:
+
+Install PyTorch with CUDA support manually before running the requirements file (visit pytorch.org for your specific command).
+
+Example: pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
+
+Then install the rest requirements.txt
